@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Material Poetry — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Karla:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #f7f4ef;
+    --ink: #1a1814;
+    --mid: #6b6660;
+    --light: #c8c3bc;
+    --accent: #8b4a2f;
+    --white: #ffffff;
+    --panel: #f0ece5;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Karla', system-ui, sans-serif;
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  /* ── LAYOUT ── */
+  .shell {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    grid-template-rows: auto 1fr;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    grid-column: 1 / -1;
+    border-bottom: 1px solid var(--light);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: baseline;
+    gap: 2rem;
+    background: var(--cream);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .logo em { font-style: italic; color: var(--accent); }
+
+  .header-tabs {
+    display: flex;
+    gap: 0;
+    margin-left: auto;
+    border: 1px solid var(--light);
+  }
+
+  .tab-btn {
+    padding: 0.5rem 1.2rem;
+    background: none;
+    border: none;
+    border-right: 1px solid var(--light);
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .tab-btn:last-child { border-right: none; }
+  .tab-btn.active { background: var(--ink); color: var(--white); }
+  .tab-btn:hover:not(.active) { background: var(--panel); color: var(--ink); }
+
+  /* ── SIDEBAR ── */
+  aside {
+    border-right: 1px solid var(--light);
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background: var(--cream);
+  }
+
+  .sidebar-section h3 {
+    font-family: var(--sans);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 0.8rem;
+  }
+
+  .sidebar-list { list-style: none; display: flex; flex-direction: column; gap: 0.2rem; }
+
+  .sidebar-list li a, .sidebar-list li button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.4rem 0.7rem;
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    font-weight: 300;
+    color: var(--mid);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.12s, color 0.12s;
+  }
+  .sidebar-list li a:hover, .sidebar-list li button:hover,
+  .sidebar-list li a.active, .sidebar-list li button.active {
+    background: var(--panel);
+    color: var(--ink);
+  }
+
+  .add-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.7rem;
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    background: none;
+    border: 1px dashed var(--accent);
+    cursor: pointer;
+    border-radius: 2px;
+    width: 100%;
+    margin-top: 0.4rem;
+    transition: background 0.12s;
+  }
+  .add-btn:hover { background: rgba(139,74,47,0.05); }
+
+  /* ── MAIN ── */
+  main {
+    padding: 2.5rem 3rem;
+    overflow-y: auto;
+  }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--light);
+  }
+
+  .page-header h1 {
+    font-family: var(--serif);
+    font-size: 2.8rem;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .page-header h1 small {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 0.4rem;
+  }
+
+  .page-actions { display: flex; gap: 0.7rem; align-items: center; }
+
+  .btn {
+    padding: 0.55rem 1.2rem;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid var(--ink);
+    background: none;
+    color: var(--ink);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .btn:hover { background: var(--ink); color: var(--white); }
+  .btn.primary { background: var(--ink); color: var(--white); }
+  .btn.primary:hover { background: var(--accent); border-color: var(--accent); }
+  .btn.accent { background: var(--accent); color: var(--white); border-color: var(--accent); }
+  .btn.accent:hover { background: #7a3f27; border-color: #7a3f27; }
+
+  /* ── SEARCH BAR ── */
+  .search-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: center;
+  }
+
+  .search-input {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    background: var(--white);
+    border: 1px solid var(--light);
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--ink);
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .search-input:focus { border-color: var(--ink); }
+  .search-input::placeholder { color: var(--light); }
+
+  select.filter-select {
+    padding: 0.6rem 1rem;
+    background: var(--white);
+    border: 1px solid var(--light);
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--mid);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  /* ── GRID VIEW ── */
+  .works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .work-card {
+    background: var(--white);
+    border: 1px solid var(--panel);
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s;
+    overflow: hidden;
+  }
+  .work-card:hover { box-shadow: 0 8px 32px rgba(26,24,20,0.1); transform: translateY(-2px); }
+
+  .work-thumb {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    background: var(--panel);
+  }
+
+  .work-thumb-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    display: block;
+    object-fit: cover;
+  }
+
+  .work-info {
+    padding: 1rem 1.1rem 1.2rem;
+  }
+
+  .work-title {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 0.3rem;
+  }
+
+  .work-meta {
+    font-size: 0.72rem;
+    font-weight: 300;
+    color: var(--mid);
+    letter-spacing: 0.03em;
+  }
+
+  .work-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: 0.7rem;
+  }
+
+  .tag {
+    padding: 0.2rem 0.5rem;
+    background: var(--panel);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mid);
+    border-radius: 1px;
+  }
+
+  /* ── TIMELINE VIEW ── */
+  .timeline-view { max-width: 700px; }
+
+  .timeline-year {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .timeline-year-label {
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--light);
+    padding-top: 0.2rem;
+    text-align: right;
+  }
+
+  .timeline-works { display: flex; flex-direction: column; gap: 1rem; }
+
+  .timeline-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--white);
+    border: 1px solid var(--panel);
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .timeline-item:hover { border-color: var(--ink); }
+
+  .timeline-thumb {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--panel);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--light);
+    font-size: 1.2rem;
+  }
+
+  .timeline-text h4 {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: 400;
+    margin-bottom: 0.2rem;
+  }
+
+  .timeline-text p { font-size: 0.78rem; color: var(--mid); }
+
+  /* ── DETAIL PANEL ── */
+  .detail-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,24,20,0.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .detail-overlay.open { display: flex; }
+
+  .detail-panel {
+    background: var(--cream);
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+  }
+
+  .detail-media {
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    position: relative;
+  }
+
+  .detail-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .detail-media-placeholder {
+    color: rgba(255,255,255,0.2);
+    font-size: 4rem;
+  }
+
+  .detail-info {
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .detail-title {
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.1;
+  }
+
+  .detail-fields { display: flex; flex-direction: column; gap: 0.8rem; }
+
+  .detail-field label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 0.2rem;
+  }
+  .detail-field p { font-size: 0.85rem; color: var(--ink); }
+
+  .detail-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: var(--white);
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+  }
+  .detail-close:hover { background: rgba(255,255,255,0.3); }
+
+  /* ── MODAL (add/edit form) ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,24,20,0.5);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--cream);
+    width: 100%;
+    max-width: 680px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 2.5rem;
+  }
+
+  .modal h2 {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    font-weight: 300;
+    font-style: italic;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--light);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+  .form-full { grid-column: 1 / -1; }
+
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+
+  .form-group label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 0.6rem 0.8rem;
+    background: var(--white);
+    border: 1px solid var(--light);
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--ink);
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus { border-color: var(--ink); }
+
+  .form-group textarea { resize: vertical; min-height: 80px; }
+
+  .upload-zone {
+    border: 2px dashed var(--light);
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .upload-zone:hover { border-color: var(--ink); background: rgba(26,24,20,0.02); }
+  .upload-zone p { font-size: 0.82rem; color: var(--mid); }
+  .upload-zone strong { display: block; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.3rem; }
+  .upload-zone input[type="file"] { display: none; }
+
+  .upload-previews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.7rem;
+  }
+  .upload-preview {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border: 1px solid var(--light);
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.7rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--light);
+  }
+
+  /* ── COLLECTIONS ── */
+  .collections-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .collection-card {
+    background: var(--white);
+    border: 1px solid var(--panel);
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+  }
+  .collection-card:hover { box-shadow: 0 8px 32px rgba(26,24,20,0.1); }
+
+  .collection-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    height: 100px;
+  }
+
+  .collection-strip div {
+    background: var(--panel);
+    overflow: hidden;
+  }
+  .collection-strip div img { width: 100%; height: 100%; object-fit: cover; }
+
+  .collection-meta {
+    padding: 1.2rem;
+  }
+  .collection-meta h3 {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-style: italic;
+    font-weight: 400;
+  }
+  .collection-meta p { font-size: 0.75rem; color: var(--mid); margin-top: 0.3rem; }
+
+  /* ── EXHIBITIONS ── */
+  .exhibitions-list { display: flex; flex-direction: column; gap: 1.2rem; max-width: 800px; }
+
+  .exhibition-card {
+    background: var(--white);
+    border: 1px solid var(--panel);
+    padding: 1.5rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: start;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .exhibition-card:hover { border-color: var(--ink); }
+
+  .exhibition-card h3 {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-style: italic;
+    font-weight: 400;
+    margin-bottom: 0.4rem;
+  }
+
+  .exhibition-card p { font-size: 0.8rem; color: var(--mid); line-height: 1.6; }
+
+  .exhibition-date {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* ── BIO VIEW ── */
+  .bio-view { max-width: 640px; }
+
+  .bio-view .bio-text {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--ink);
+    margin-bottom: 2rem;
+  }
+
+  .bio-view .bio-statement {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-style: italic;
+    line-height: 1.8;
+    color: var(--mid);
+    padding: 1.5rem 2rem;
+    border-left: 2px solid var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    text-align: center;
+    padding: 5rem 2rem;
+    color: var(--light);
+  }
+  .empty-state .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; }
+  .empty-state p { font-family: var(--serif); font-size: 1.1rem; font-style: italic; }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: flex;
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .stat { display: flex; flex-direction: column; gap: 0.2rem; }
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 300;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  /* ── PUBLIC / ADMIN toggle ── */
+  .mode-badge {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    background: var(--panel);
+    color: var(--mid);
+    border: 1px solid var(--light);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .mode-badge.admin-mode { background: var(--accent); color: var(--white); border-color: var(--accent); }
+
+  .admin-only { display: none; }
+  body.admin .admin-only { display: block; }
+  body.admin .admin-flex { display: flex !important; }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--light); border-radius: 3px; }
+</style>
+</head>
+<body class="admin">
+
+<div class="shell">
+  <!-- HEADER -->
+  <header>
+    <div class="logo">Material <em>Poetry</em></div>
+    <nav class="header-tabs">
+      <button class="tab-btn active" data-view="works">Works</button>
+      <button class="tab-btn" data-view="collections">Collections</button>
+      <button class="tab-btn" data-view="exhibitions">Exhibitions</button>
+      <button class="tab-btn" data-view="timeline">Timeline</button>
+      <button class="tab-btn" data-view="bio">About</button>
+    </nav>
+    <button class="mode-badge admin-mode" id="modeToggle">Admin</button>
+  </header>
+
+  <!-- SIDEBAR -->
+  <aside>
+    <div class="sidebar-section">
+      <h3>Collections</h3>
+      <ul class="sidebar-list" id="sidebarCollections">
+        <li><button class="active" data-filter="all">All Works</button></li>
+      </ul>
+      <button class="add-btn admin-only" id="addCollectionBtn">+ New Collection</button>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Tags</h3>
+      <ul class="sidebar-list" id="sidebarTags">
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Medium</h3>
+      <ul class="sidebar-list" id="sidebarMediums">
+      </ul>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main>
+
+    <!-- ── WORKS VIEW ── -->
+    <div class="view active" id="view-works">
+      <div class="page-header">
+        <h1><small>Portfolio</small>All Works</h1>
+        <div class="page-actions">
+          <button class="btn admin-only" id="batchUploadBtn">Batch Upload</button>
+          <button class="btn primary admin-only" id="addWorkBtn">+ Add Work</button>
+        </div>
+      </div>
+
+      <div class="stats-bar" id="statsBar">
+        <div class="stat"><span class="stat-num" id="statWorks">0</span><span class="stat-label">Works</span></div>
+        <div class="stat"><span class="stat-num" id="statCollections">0</span><span class="stat-label">Collections</span></div>
+        <div class="stat"><span class="stat-num" id="statExhibitions">0</span><span class="stat-label">Exhibitions</span></div>
+      </div>
+
+      <div class="search-row">
+        <input class="search-input" type="text" id="searchWorks" placeholder="Search works…">
+        <select class="filter-select" id="filterYear">
+          <option value="">All Years</option>
+        </select>
+        <select class="filter-select" id="filterMedium">
+          <option value="">All Media</option>
+        </select>
+      </div>
+
+      <div class="works-grid" id="worksGrid"></div>
+    </div>
+
+    <!-- ── COLLECTIONS VIEW ── -->
+    <div class="view" id="view-collections">
+      <div class="page-header">
+        <h1><small>Browse</small>Collections</h1>
+        <div class="page-actions">
+          <button class="btn primary admin-only" id="addCollectionBtn2">+ New Collection</button>
+        </div>
+      </div>
+      <div class="collections-grid" id="collectionsGrid"></div>
+    </div>
+
+    <!-- ── EXHIBITIONS VIEW ── -->
+    <div class="view" id="view-exhibitions">
+      <div class="page-header">
+        <h1><small>History</small>Exhibitions</h1>
+        <div class="page-actions">
+          <button class="btn primary admin-only" id="addExhibitionBtn">+ New Exhibition</button>
+        </div>
+      </div>
+      <div class="exhibitions-list" id="exhibitionsList"></div>
+    </div>
+
+    <!-- ── TIMELINE VIEW ── -->
+    <div class="view" id="view-timeline">
+      <div class="page-header">
+        <h1><small>Chronology</small>Timeline</h1>
+      </div>
+      <div class="timeline-view" id="timelineView"></div>
+    </div>
+
+    <!-- ── BIO VIEW ── -->
+    <div class="view" id="view-bio">
+      <div class="page-header">
+        <h1><small>Artist</small>About</h1>
+        <div class="page-actions">
+          <button class="btn admin-only" id="editBioBtn">Edit</button>
+        </div>
+      </div>
+      <div class="bio-view" id="bioView">
+        <p class="bio-text" id="bioText">Cerlin is a multidisciplinary artist whose practice spans painting, sculpture, and mixed media. Her work investigates the threshold between material and meaning — where physical substance becomes expressive language. Based in Dublin, she has exhibited widely across Europe and internationally.</p>
+        <blockquote class="bio-statement" id="bioStatement">"I am interested in the moment when a material stops being itself and starts becoming something else — when clay becomes thought, or pigment becomes light. That threshold is where I work."</blockquote>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── WORK DETAIL OVERLAY ── -->
+<div class="detail-overlay" id="detailOverlay">
+  <div class="detail-panel">
+    <div class="detail-media" id="detailMedia">
+  </div>
+    <div class="detail-info">
+      <h2 class="detail-title" id="detailTitle">Work Title</h2>
+      <div class="detail-fields">
+        <div class="detail-field"><label>Year</label><p id="detailYear">—</p></div>
+        <div class="detail-field"><label>Medium</label><p id="detailMedium">—</p></div>
+        <div class="detail-field"><label>Dimensions</label><p id="detailDimensions">—</p></div>
+        <div class="detail-field"><label>Collection</label><p id="detailCollection">—</p></div>
+        <div class="detail-field"><label>Tags</label><p id="detailTags">—</p></div>
+        <div class="detail-field admin-only"><label>Private Notes</label><p id="detailNotes" style="color:var(--mid);font-style:italic;">—</p></div>
+      </div>
+      <div class="page-actions" style="margin-top:auto; padding-top:1rem; justify-content:flex-start;">
+        <button class="btn admin-only" id="editWorkBtn">Edit Work</button>
+        <button class="btn admin-only" style="color:var(--accent);border-color:var(--accent);" id="deleteWorkBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ADD/EDIT WORK MODAL ── -->
+<div class="modal-overlay" id="workModal">
+  <div class="modal">
+    <h2 id="workModalTitle">Add New Work</h2>
+    <div class="form-grid">
+      <div class="form-group form-full">
+        <label>Title *</label>
+        <input type="text" id="wTitle" placeholder="e.g. Untitled No. 7">
+      </div>
+      <div class="form-group">
+        <label>Year *</label>
+        <input type="number" id="wYear" placeholder="2024" min="1900" max="2099">
+      </div>
+      <div class="form-group">
+        <label>Medium</label>
+        <input type="text" id="wMedium" placeholder="e.g. Oil on linen">
+      </div>
+      <div class="form-group">
+        <label>Dimensions</label>
+        <input type="text" id="wDimensions" placeholder="e.g. 60 × 80 cm">
+      </div>
+      <div class="form-group">
+        <label>Collection</label>
+        <select id="wCollection">
+          <option value="">— No Collection —</option>
+        </select>
+      </div>
+      <div class="form-group form-full">
+        <label>Tags <span style="font-weight:300;text-transform:none;letter-spacing:0;">(comma separated)</span></label>
+        <input type="text" id="wTags" placeholder="e.g. abstraction, texture, large-scale">
+      </div>
+      <div class="form-group form-full">
+        <label>Private Notes</label>
+        <textarea id="wNotes" placeholder="Provenance, exhibition history, sale details…"></textarea>
+      </div>
+      <div class="form-group form-full">
+        <label>Images / Videos</label>
+        <label class="upload-zone" id="uploadZone">
+          <input type="file" id="wFiles" multiple accept="image/*,video/*">
+          <strong>Click to upload or drag files here</strong>
+          <p>Supports JPG, PNG, WebP, MP4, MOV</p>
+        </label>
+        <div class="upload-previews" id="uploadPreviews"></div>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn" id="cancelWorkBtn">Cancel</button>
+      <button class="btn accent" id="saveWorkBtn">Save Work</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── ADD COLLECTION MODAL ── -->
+<div class="modal-overlay" id="collectionModal">
+  <div class="modal">
+    <h2>New Collection</h2>
+    <div class="form-grid">
+      <div class="form-group form-full">
+        <label>Collection Name *</label>
+        <input type="text" id="cName" placeholder="e.g. Recent Works">
+      </div>
+      <div class="form-group form-full">
+        <label>Description</label>
+        <textarea id="cDesc" placeholder="A brief description of this collection…"></textarea>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn" id="cancelCollectionBtn">Cancel</button>
+      <button class="btn accent" id="saveCollectionBtn">Create Collection</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── ADD EXHIBITION MODAL ── -->
+<div class="modal-overlay" id="exhibitionModal">
+  <div class="modal">
+    <h2 id="exhibitionModalTitle">New Exhibition</h2>
+    <div class="form-grid">
+      <div class="form-group form-full">
+        <label>Exhibition Name *</label>
+        <input type="text" id="eName" placeholder="e.g. Between the Lines">
+      </div>
+      <div class="form-group form-full">
+        <label>Venue / Place</label>
+        <input type="text" id="ePlace" placeholder="e.g. The Model, Sligo">
+      </div>
+      <div class="form-group">
+        <label>Start Date</label>
+        <input type="date" id="eStart">
+      </div>
+      <div class="form-group">
+        <label>End Date</label>
+        <input type="date" id="eEnd">
+      </div>
+      <div class="form-group form-full">
+        <label>Select Works</label>
+        <input class="search-input" type="text" id="eWorkSearch" placeholder="Search works to add…" style="margin-bottom:0.5rem;">
+        <div id="eWorksList" style="max-height:200px;overflow-y:auto;border:1px solid var(--light);background:var(--white);"></div>
+        <div id="eSelectedWorks" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.5rem;"></div>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn" id="cancelExhibitionBtn">Cancel</button>
+      <button class="btn accent" id="saveExhibitionBtn">Save Exhibition</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── BATCH UPLOAD MODAL ── -->
+<div class="modal-overlay" id="batchModal">
+  <div class="modal">
+    <h2>Batch Upload</h2>
+    <div class="form-grid">
+      <div class="form-group form-full">
+        <label>Select Multiple Images / Videos</label>
+        <label class="upload-zone">
+          <input type="file" id="batchFiles" multiple accept="image/*,video/*">
+          <strong>Select a folder or multiple files</strong>
+          <p>Each file will create a new work entry — you can edit details after upload</p>
+        </label>
+        <div class="upload-previews" id="batchPreviews"></div>
+      </div>
+      <div class="form-group">
+        <label>Default Year</label>
+        <input type="number" id="batchYear" placeholder="2024">
+      </div>
+      <div class="form-group">
+        <label>Assign to Collection</label>
+        <select id="batchCollection">
+          <option value="">— No Collection —</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn" id="cancelBatchBtn">Cancel</button>
+      <button class="btn accent" id="saveBatchBtn">Import Works</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── EDIT BIO MODAL ── -->
+<div class="modal-overlay" id="bioModal">
+  <div class="modal">
+    <h2>Edit Bio & Statement</h2>
+    <div class="form-grid">
+      <div class="form-group form-full">
+        <label>Artist Bio</label>
+        <textarea id="editBioText" style="min-height:120px;"></textarea>
+      </div>
+      <div class="form-group form-full">
+        <label>Artist Statement</label>
+        <textarea id="editBioStatement" style="min-height:100px;"></textarea>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn" id="cancelBioBtn">Cancel</button>
+      <button class="btn accent" id="saveBioBtn">Save</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ──────────────────────────────────────────────
+//  DATA STORE
+// ──────────────────────────────────────────────
+
+let db = {
+  works: [],
+  collections: [],
+  exhibitions: [],
+  bio: {
+    text: document.getElementById('bioText').textContent,
+    statement: document.getElementById('bioStatement').textContent
+  }
+};
+
+let editingWorkId = null;
+let editingExhibitionId = null;
+let activeFilter = 'all';
+let activeView = 'works';
+
+// Seed with sample data
+db.collections = [
+  { id: 'c1', name: 'Recent Works', desc: 'Works from 2022 onwards' },
+  { id: 'c2', name: 'Landscape Studies', desc: 'Explorations of place and terrain' },
+];
+
+db.exhibitions = [
+  { id: 'e1', name: 'Between the Lines', place: 'The Model, Sligo', start: '2024-03-01', end: '2024-04-28', works: [] },
+  { id: 'e2', name: 'Material Witness', place: 'Limerick City Gallery', start: '2023-09-15', end: '2023-11-12', works: [] },
+];
+
+db.works = [
+  { id: 'w1', title: 'Residue I', year: 2024, medium: 'Oil and wax on linen', dimensions: '90 × 120 cm', collection: 'c1', tags: ['painting','texture','abstraction'], notes: 'Shown at The Model 2024', images: [] },
+  { id: 'w2', title: 'Residue II', year: 2024, medium: 'Oil and wax on linen', dimensions: '90 × 120 cm', collection: 'c1', tags: ['painting','texture'], notes: '', images: [] },
+  { id: 'w3', title: 'Ground Study IV', year: 2023, medium: 'Encaustic on board', dimensions: '45 × 60 cm', collection: 'c2', tags: ['landscape','encaustic'], notes: 'Sold — private collection Dublin', images: [] },
+  { id: 'w4', title: 'Fold', year: 2022, medium: 'Mixed media on paper', dimensions: '100 × 70 cm', collection: 'c1', tags: ['paper','mixed media'], notes: '', images: [] },
+  { id: 'w5', title: 'Sediment', year: 2021, medium: 'Oil on canvas', dimensions: '150 × 200 cm', collection: '', tags: ['painting','large-scale'], notes: '', images: [] },
+];
+
+
+// ──────────────────────────────────────────────
+//  UTILS
+// ──────────────────────────────────────────────
+
+function uid() { return '_' + Math.random().toString(36).slice(2,9); }
+
+function getCollection(id) { return db.collections.find(c => c.id === id); }
+
+function getAllTags() {
+  const s = new Set();
+  db.works.forEach(w => w.tags.forEach(t => s.add(t)));
+  return [...s].sort();
+}
+
+function getAllMediums() {
+  const s = new Set();
+  db.works.forEach(w => { if(w.medium) s.add(w.medium.split(' ')[0]); });
+  return [...s].sort();
+}
+
+function getAllYears() {
+  const s = new Set();
+  db.works.forEach(w => { if(w.year) s.add(w.year); });
+  return [...s].sort((a,b) => b-a);
+}
+
+function isAdmin() { return document.body.classList.contains('admin'); }
+
+// ──────────────────────────────────────────────
+//  RENDER SIDEBAR
+// ──────────────────────────────────────────────
+
+function renderSidebar() {
+  const colList = document.getElementById('sidebarCollections');
+  colList.innerHTML = `<li><button class="${activeFilter==='all'?'active':''}" data-filter="all">All Works</button></li>`;
+  db.collections.forEach(c => {
+    const li = document.createElement('li');
+    li.innerHTML = `<button class="${activeFilter===c.id?'active':''}" data-filter="${c.id}">${c.name}</button>`;
+    colList.appendChild(li);
+  });
+  colList.querySelectorAll('button').forEach(b => {
+    b.addEventListener('click', () => {
+      activeFilter = b.dataset.filter;
+      renderSidebar();
+      renderWorksGrid();
+      // switch to works view
+      switchView('works');
+    });
+  });
+
+  const tagList = document.getElementById('sidebarTags');
+  tagList.innerHTML = '';
+  getAllTags().forEach(t => {
+    tagList.innerHTML += `<li><button data-filter-tag="${t}">${t}</button></li>`;
+  });
+  tagList.querySelectorAll('button').forEach(b => {
+    b.addEventListener('click', () => {
+      // filter by tag
+      renderWorksGridFiltered({ tag: b.dataset.filterTag });
+      switchView('works');
+    });
+  });
+
+  const medList = document.getElementById('sidebarMediums');
+  medList.innerHTML = '';
+  getAllMediums().forEach(m => {
+    medList.innerHTML += `<li><button data-filter-med="${m}">${m}</button></li>`;
+  });
+  medList.querySelectorAll('button').forEach(b => {
+    b.addEventListener('click', () => {
+      renderWorksGridFiltered({ medium: b.dataset.filterMed });
+      switchView('works');
+    });
+  });
+}
+
+// ──────────────────────────────────────────────
+//  RENDER WORKS GRID
+// ──────────────────────────────────────────────
+
+// Palette of muted tones for placeholder images
+const PLACEHOLDER_COLORS = [
+  ['#d9d2c7','#b8b0a4'], ['#c9cfc4','#a8b0a2'], ['#cdc4bb','#a89f96'],
+  ['#bfc9cc','#9aadb2'], ['#d4c9be','#b0a096'], ['#c5c9be','#9fa4a0'],
+  ['#d0c2b8','#a89088'], ['#c2ccc5','#96a89e'],
+];
+
+function makePlaceholderSrc(id, w=400, h=300) {
+  const idx = Math.abs(id.split('').reduce((a,c)=>a+c.charCodeAt(0),0)) % PLACEHOLDER_COLORS.length;
+  const [bg, fg] = PLACEHOLDER_COLORS[idx];
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+    <rect width="${w}" height="${h}" fill="${bg}"/>
+    <rect x="${w*0.3}" y="${h*0.25}" width="${w*0.4}" height="${h*0.35}" rx="2" fill="none" stroke="${fg}" stroke-width="1.5"/>
+    <line x1="${w*0.42}" y1="${h*0.4}" x2="${w*0.58}" y2="${h*0.55}" stroke="${fg}" stroke-width="1.2"/>
+    <circle cx="${w*0.42}" cy="${h*0.37}" r="${w*0.04}" fill="${fg}"/>
+    <rect x="${w*0.3}" y="${h*0.68}" width="${w*0.4}" height="1.5" fill="${fg}" opacity="0.4"/>
+  </svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+function filterWorks() {
+  let works = [...db.works];
+  if (activeFilter !== 'all') works = works.filter(w => w.collection === activeFilter);
+  const q = document.getElementById('searchWorks').value.toLowerCase();
+  if (q) works = works.filter(w => w.title.toLowerCase().includes(q) || w.tags.join(' ').includes(q) || (w.medium||'').toLowerCase().includes(q));
+  const yr = document.getElementById('filterYear').value;
+  if (yr) works = works.filter(w => String(w.year) === yr);
+  const med = document.getElementById('filterMedium').value;
+  if (med) works = works.filter(w => (w.medium||'').startsWith(med));
+  return works;
+}
+
+function renderWorksGridFiltered(opts) {
+  const grid = document.getElementById('worksGrid');
+  let works = [...db.works];
+  if (opts.tag) works = works.filter(w => w.tags.includes(opts.tag));
+  if (opts.medium) works = works.filter(w => (w.medium||'').startsWith(opts.medium));
+  renderCards(works, grid);
+}
+
+function renderWorksGrid() {
+  const grid = document.getElementById('worksGrid');
+  renderCards(filterWorks(), grid);
+  // update filter dropdowns
+  const yearSel = document.getElementById('filterYear');
+  const yrVal = yearSel.value;
+  yearSel.innerHTML = '<option value="">All Years</option>';
+  getAllYears().forEach(y => {
+    yearSel.innerHTML += `<option value="${y}" ${String(y)===yrVal?'selected':''}>${y}</option>`;
+  });
+  const medSel = document.getElementById('filterMedium');
+  const medVal = medSel.value;
+  medSel.innerHTML = '<option value="">All Media</option>';
+  getAllMediums().forEach(m => {
+    medSel.innerHTML += `<option value="${m}" ${m===medVal?'selected':''}>${m}</option>`;
+  });
+  updateStats();
+}
+
+function renderCards(works, container) {
+  if (!works.length) {
+    container.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">◻</div><p>No works found.</p></div>`;
+    return;
+  }
+  container.innerHTML = '';
+  works.forEach(w => {
+    const card = document.createElement('div');
+    card.className = 'work-card';
+    const col = getCollection(w.collection);
+    card.innerHTML = `
+      <img class="work-thumb-placeholder" src="${makePlaceholderSrc(w.id)}" alt="${w.title}">
+      <div class="work-info">
+        <div class="work-title">${w.title}</div>
+        <div class="work-meta">${w.year}${w.medium ? ' · ' + w.medium : ''}${col ? ' · ' + col.name : ''}</div>
+        ${w.tags.length ? `<div class="work-tags">${w.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>` : ''}
+      </div>
+    `;
+    card.addEventListener('click', () => openDetail(w.id));
+    container.appendChild(card);
+  });
+}
+
+function updateStats() {
+  document.getElementById('statWorks').textContent = db.works.length;
+  document.getElementById('statCollections').textContent = db.collections.length;
+  document.getElementById('statExhibitions').textContent = db.exhibitions.length;
+}
+
+// ──────────────────────────────────────────────
+//  RENDER COLLECTIONS
+// ──────────────────────────────────────────────
+
+function renderCollections() {
+  const grid = document.getElementById('collectionsGrid');
+  if (!db.collections.length) {
+    grid.innerHTML = `<div class="empty-state"><div class="empty-icon">◻</div><p>No collections yet.</p></div>`;
+    return;
+  }
+  grid.innerHTML = '';
+  db.collections.forEach(c => {
+    const works = db.works.filter(w => w.collection === c.id);
+    const card = document.createElement('div');
+    card.className = 'collection-card';
+    card.innerHTML = `
+      <div class="collection-strip">
+        <div></div><div></div><div></div>
+      </div>
+      <div class="collection-meta">
+        <h3>${c.name}</h3>
+        <p>${works.length} work${works.length!==1?'s':''}${c.desc ? ' — ' + c.desc : ''}</p>
+      </div>
+    `;
+    card.addEventListener('click', () => {
+      activeFilter = c.id;
+      renderSidebar();
+      renderWorksGrid();
+      switchView('works');
+    });
+    grid.appendChild(card);
+  });
+}
+
+// ──────────────────────────────────────────────
+//  RENDER EXHIBITIONS
+// ──────────────────────────────────────────────
+
+function renderExhibitions() {
+  const list = document.getElementById('exhibitionsList');
+  if (!db.exhibitions.length) {
+    list.innerHTML = `<div class="empty-state"><div class="empty-icon">◻</div><p>No exhibitions recorded yet.</p></div>`;
+    return;
+  }
+  list.innerHTML = '';
+  const sorted = [...db.exhibitions].sort((a,b) => (b.start||'').localeCompare(a.start||''));
+  sorted.forEach(ex => {
+    const card = document.createElement('div');
+    card.className = 'exhibition-card';
+    const start = ex.start ? new Date(ex.start).toLocaleDateString('en-IE',{month:'short',year:'numeric'}) : '';
+    const end = ex.end ? new Date(ex.end).toLocaleDateString('en-IE',{month:'short',year:'numeric'}) : '';
+    card.innerHTML = `
+      <div>
+        <h3>${ex.name}</h3>
+        <p>${ex.place || ''}${ex.works.length ? ` · ${ex.works.length} works` : ''}</p>
+      </div>
+      <div class="exhibition-date">${start}${end&&end!==start ? ' – ' + end : ''}</div>
+    `;
+    if (isAdmin()) {
+      card.addEventListener('click', () => openExhibitionModal(ex.id));
+    }
+    list.appendChild(card);
+  });
+}
+
+// ──────────────────────────────────────────────
+//  RENDER TIMELINE
+// ──────────────────────────────────────────────
+
+function renderTimeline() {
+  const container = document.getElementById('timelineView');
+  const byYear = {};
+  db.works.forEach(w => {
+    const y = w.year || 'Unknown';
+    if (!byYear[y]) byYear[y] = [];
+    byYear[y].push(w);
+  });
+  const years = Object.keys(byYear).sort((a,b) => b-a);
+  if (!years.length) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">◻</div><p>No works in timeline yet.</p></div>`;
+    return;
+  }
+  container.innerHTML = '';
+  years.forEach(y => {
+    const row = document.createElement('div');
+    row.className = 'timeline-year';
+    row.innerHTML = `<div class="timeline-year-label">${y}</div><div class="timeline-works"></div>`;
+    const worksDiv = row.querySelector('.timeline-works');
+    byYear[y].forEach(w => {
+      const item = document.createElement('div');
+      item.className = 'timeline-item';
+      item.innerHTML = `
+        <img class="timeline-thumb" src="${makePlaceholderSrc(w.id, 160, 120)}" alt="${w.title}" style="width:80px;height:60px;object-fit:cover;flex-shrink:0;">
+        <div class="timeline-text">
+          <h4>${w.title}</h4>
+          <p>${w.medium||''}${w.dimensions?' · '+w.dimensions:''}</p>
+        </div>
+      `;
+      item.addEventListener('click', () => openDetail(w.id));
+      worksDiv.appendChild(item);
+    });
+    container.appendChild(row);
+  });
+}
+
+// ──────────────────────────────────────────────
+//  WORK DETAIL
+// ──────────────────────────────────────────────
+
+function openDetail(id) {
+  const w = db.works.find(x => x.id === id);
+  if (!w) return;
+  editingWorkId = id;
+  document.getElementById('detailMedia').innerHTML = `
+    <button class="detail-close" id="detailClose">✕</button>
+    <img src="${makePlaceholderSrc(id, 600, 500)}" alt="${w.title}" style="width:100%;height:100%;object-fit:contain;display:block;">
+  `;
+  document.getElementById('detailYear').textContent = w.year || '—';
+  document.getElementById('detailMedium').textContent = w.medium || '—';
+  document.getElementById('detailDimensions').textContent = w.dimensions || '—';
+  const col = getCollection(w.collection);
+  document.getElementById('detailCollection').textContent = col ? col.name : '—';
+  document.getElementById('detailTags').textContent = w.tags.length ? w.tags.join(', ') : '—';
+  document.getElementById('detailNotes').textContent = w.notes || '—';
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+document.getElementById('detailOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('detailOverlay') || e.target.id === 'detailClose') {
+    document.getElementById('detailOverlay').classList.remove('open');
+  }
+});
+
+document.getElementById('editWorkBtn').addEventListener('click', () => {
+  document.getElementById('detailOverlay').classList.remove('open');
+  openWorkModal(editingWorkId);
+});
+
+document.getElementById('deleteWorkBtn').addEventListener('click', () => {
+  if (confirm('Delete this work? This cannot be undone.')) {
+    db.works = db.works.filter(w => w.id !== editingWorkId);
+    document.getElementById('detailOverlay').classList.remove('open');
+    renderAll();
+  }
+});
+
+// ──────────────────────────────────────────────
+//  ADD / EDIT WORK MODAL
+// ──────────────────────────────────────────────
+
+function populateCollectionSelect(selId) {
+  const sel = document.getElementById(selId);
+  const val = sel.value;
+  sel.innerHTML = '<option value="">— No Collection —</option>';
+  db.collections.forEach(c => {
+    sel.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+  });
+  sel.value = val;
+}
+
+function openWorkModal(id) {
+  editingWorkId = id || null;
+  const modal = document.getElementById('workModal');
+  document.getElementById('workModalTitle').textContent = id ? 'Edit Work' : 'Add New Work';
+  populateCollectionSelect('wCollection');
+  if (id) {
+    const w = db.works.find(x => x.id === id);
+    document.getElementById('wTitle').value = w.title;
+    document.getElementById('wYear').value = w.year || '';
+    document.getElementById('wMedium').value = w.medium || '';
+    document.getElementById('wDimensions').value = w.dimensions || '';
+    document.getElementById('wCollection').value = w.collection || '';
+    document.getElementById('wTags').value = w.tags.join(', ');
+    document.getElementById('wNotes').value = w.notes || '';
+  } else {
+    document.getElementById('wTitle').value = '';
+    document.getElementById('wYear').value = new Date().getFullYear();
+    document.getElementById('wMedium').value = '';
+    document.getElementById('wDimensions').value = '';
+    document.getElementById('wCollection').value = '';
+    document.getElementById('wTags').value = '';
+    document.getElementById('wNotes').value = '';
+    document.getElementById('uploadPreviews').innerHTML = '';
+  }
+  modal.classList.add('open');
+}
+
+document.getElementById('addWorkBtn').addEventListener('click', () => openWorkModal(null));
+document.getElementById('cancelWorkBtn').addEventListener('click', () => {
+  document.getElementById('workModal').classList.remove('open');
+});
+
+document.getElementById('saveWorkBtn').addEventListener('click', () => {
+  const title = document.getElementById('wTitle').value.trim();
+  if (!title) { alert('Please enter a title.'); return; }
+  const data = {
+    title,
+    year: parseInt(document.getElementById('wYear').value) || null,
+    medium: document.getElementById('wMedium').value.trim(),
+    dimensions: document.getElementById('wDimensions').value.trim(),
+    collection: document.getElementById('wCollection').value,
+    tags: document.getElementById('wTags').value.split(',').map(t=>t.trim()).filter(Boolean),
+    notes: document.getElementById('wNotes').value.trim(),
+    images: []
+  };
+  if (editingWorkId) {
+    const idx = db.works.findIndex(w => w.id === editingWorkId);
+    db.works[idx] = { ...db.works[idx], ...data };
+  } else {
+    db.works.push({ id: uid(), ...data });
+  }
+  document.getElementById('workModal').classList.remove('open');
+  renderAll();
+});
+
+// File upload preview
+document.getElementById('wFiles').addEventListener('change', function() {
+  const previews = document.getElementById('uploadPreviews');
+  previews.innerHTML = '';
+  Array.from(this.files).forEach(f => {
+    if (f.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = document.createElement('img');
+        img.className = 'upload-preview';
+        img.src = e.target.result;
+        previews.appendChild(img);
+      };
+      reader.readAsDataURL(f);
+    } else {
+      const div = document.createElement('div');
+      div.className = 'upload-preview';
+      div.style.cssText = 'display:flex;align-items:center;justify-content:center;background:var(--panel);font-size:0.65rem;text-align:center;padding:4px;';
+      div.textContent = f.name;
+      previews.appendChild(div);
+    }
+  });
+});
+
+// ──────────────────────────────────────────────
+//  BATCH UPLOAD
+// ──────────────────────────────────────────────
+
+document.getElementById('batchUploadBtn').addEventListener('click', () => {
+  populateCollectionSelect('batchCollection');
+  document.getElementById('batchModal').classList.add('open');
+});
+document.getElementById('cancelBatchBtn').addEventListener('click', () => {
+  document.getElementById('batchModal').classList.remove('open');
+});
+
+document.getElementById('batchFiles').addEventListener('change', function() {
+  const previews = document.getElementById('batchPreviews');
+  previews.innerHTML = '';
+  Array.from(this.files).forEach(f => {
+    if (f.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = document.createElement('img');
+        img.className = 'upload-preview';
+        img.src = e.target.result;
+        previews.appendChild(img);
+      };
+      reader.readAsDataURL(f);
+    }
+  });
+});
+
+document.getElementById('saveBatchBtn').addEventListener('click', () => {
+  const files = document.getElementById('batchFiles').files;
+  const year = parseInt(document.getElementById('batchYear').value) || null;
+  const col = document.getElementById('batchCollection').value;
+  Array.from(files).forEach(f => {
+    const name = f.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+    db.works.push({ id: uid(), title: name, year, medium: '', dimensions: '', collection: col, tags: [], notes: '', images: [] });
+  });
+  document.getElementById('batchModal').classList.remove('open');
+  renderAll();
+});
+
+// ──────────────────────────────────────────────
+//  COLLECTION MODAL
+// ──────────────────────────────────────────────
+
+function openCollectionModal() {
+  document.getElementById('cName').value = '';
+  document.getElementById('cDesc').value = '';
+  document.getElementById('collectionModal').classList.add('open');
+}
+
+document.getElementById('addCollectionBtn').addEventListener('click', openCollectionModal);
+document.getElementById('addCollectionBtn2').addEventListener('click', openCollectionModal);
+document.getElementById('cancelCollectionBtn').addEventListener('click', () => {
+  document.getElementById('collectionModal').classList.remove('open');
+});
+document.getElementById('saveCollectionBtn').addEventListener('click', () => {
+  const name = document.getElementById('cName').value.trim();
+  if (!name) { alert('Please enter a collection name.'); return; }
+  db.collections.push({ id: uid(), name, desc: document.getElementById('cDesc').value.trim() });
+  document.getElementById('collectionModal').classList.remove('open');
+  renderAll();
+});
+
+// ──────────────────────────────────────────────
+//  EXHIBITION MODAL
+// ──────────────────────────────────────────────
+
+let exhibitionSelectedWorks = [];
+
+function openExhibitionModal(id) {
+  editingExhibitionId = id || null;
+  exhibitionSelectedWorks = [];
+  document.getElementById('exhibitionModalTitle').textContent = id ? 'Edit Exhibition' : 'New Exhibition';
+  if (id) {
+    const ex = db.exhibitions.find(e => e.id === id);
+    document.getElementById('eName').value = ex.name;
+    document.getElementById('ePlace').value = ex.place || '';
+    document.getElementById('eStart').value = ex.start || '';
+    document.getElementById('eEnd').value = ex.end || '';
+    exhibitionSelectedWorks = [...(ex.works||[])];
+  } else {
+    document.getElementById('eName').value = '';
+    document.getElementById('ePlace').value = '';
+    document.getElementById('eStart').value = '';
+    document.getElementById('eEnd').value = '';
+  }
+  renderExhibitionWorksList('');
+  renderSelectedWorks();
+  document.getElementById('exhibitionModal').classList.add('open');
+}
+
+function renderExhibitionWorksList(q) {
+  const list = document.getElementById('eWorksList');
+  const works = db.works.filter(w => !exhibitionSelectedWorks.includes(w.id) && (!q || w.title.toLowerCase().includes(q)));
+  list.innerHTML = works.map(w => `
+    <div style="padding:0.5rem 0.8rem;cursor:pointer;font-size:0.82rem;border-bottom:1px solid var(--panel);transition:background 0.1s;" 
+         onmouseover="this.style.background='var(--panel)'" onmouseout="this.style.background=''"
+         data-wid="${w.id}">
+      <strong style="font-style:italic;">${w.title}</strong> <span style="color:var(--mid);font-size:0.75rem;">${w.year||''}</span>
+    </div>
+  `).join('') || '<div style="padding:0.5rem 0.8rem;color:var(--mid);font-size:0.82rem;">No works found</div>';
+  list.querySelectorAll('[data-wid]').forEach(el => {
+    el.addEventListener('click', () => {
+      exhibitionSelectedWorks.push(el.dataset.wid);
+      renderExhibitionWorksList(document.getElementById('eWorkSearch').value.toLowerCase());
+      renderSelectedWorks();
+    });
+  });
+}
+
+function renderSelectedWorks() {
+  const div = document.getElementById('eSelectedWorks');
+  div.innerHTML = exhibitionSelectedWorks.map(id => {
+    const w = db.works.find(x => x.id === id);
+    return w ? `<span class="tag" style="cursor:pointer;background:var(--ink);color:var(--white);" data-remove="${id}">${w.title} ✕</span>` : '';
+  }).join('');
+  div.querySelectorAll('[data-remove]').forEach(el => {
+    el.addEventListener('click', () => {
+      exhibitionSelectedWorks = exhibitionSelectedWorks.filter(id => id !== el.dataset.remove);
+      renderExhibitionWorksList(document.getElementById('eWorkSearch').value.toLowerCase());
+      renderSelectedWorks();
+    });
+  });
+}
+
+document.getElementById('eWorkSearch').addEventListener('input', function() {
+  renderExhibitionWorksList(this.value.toLowerCase());
+});
+
+document.getElementById('addExhibitionBtn').addEventListener('click', () => openExhibitionModal(null));
+document.getElementById('cancelExhibitionBtn').addEventListener('click', () => {
+  document.getElementById('exhibitionModal').classList.remove('open');
+});
+document.getElementById('saveExhibitionBtn').addEventListener('click', () => {
+  const name = document.getElementById('eName').value.trim();
+  if (!name) { alert('Please enter an exhibition name.'); return; }
+  const data = {
+    name,
+    place: document.getElementById('ePlace').value.trim(),
+    start: document.getElementById('eStart').value,
+    end: document.getElementById('eEnd').value,
+    works: [...exhibitionSelectedWorks]
+  };
+  if (editingExhibitionId) {
+    const idx = db.exhibitions.findIndex(e => e.id === editingExhibitionId);
+    db.exhibitions[idx] = { ...db.exhibitions[idx], ...data };
+  } else {
+    db.exhibitions.push({ id: uid(), ...data });
+  }
+  document.getElementById('exhibitionModal').classList.remove('open');
+  renderAll();
+});
+
+// ──────────────────────────────────────────────
+//  BIO EDIT
+// ──────────────────────────────────────────────
+
+document.getElementById('editBioBtn').addEventListener('click', () => {
+  document.getElementById('editBioText').value = db.bio.text;
+  document.getElementById('editBioStatement').value = db.bio.statement;
+  document.getElementById('bioModal').classList.add('open');
+});
+document.getElementById('cancelBioBtn').addEventListener('click', () => {
+  document.getElementById('bioModal').classList.remove('open');
+});
+document.getElementById('saveBioBtn').addEventListener('click', () => {
+  db.bio.text = document.getElementById('editBioText').value;
+  db.bio.statement = document.getElementById('editBioStatement').value;
+  document.getElementById('bioText').textContent = db.bio.text;
+  document.getElementById('bioStatement').textContent = db.bio.statement;
+  document.getElementById('bioModal').classList.remove('open');
+});
+
+// ──────────────────────────────────────────────
+//  VIEW SWITCHING
+// ──────────────────────────────────────────────
+
+function switchView(name) {
+  activeView = name;
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelector(`#view-${name}`).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === name);
+  });
+  if (name === 'works') renderWorksGrid();
+  if (name === 'collections') renderCollections();
+  if (name === 'exhibitions') renderExhibitions();
+  if (name === 'timeline') renderTimeline();
+}
+
+document.querySelectorAll('.tab-btn').forEach(b => {
+  b.addEventListener('click', () => switchView(b.dataset.view));
+});
+
+// ──────────────────────────────────────────────
+//  ADMIN / PUBLIC TOGGLE
+// ──────────────────────────────────────────────
+
+document.getElementById('modeToggle').addEventListener('click', function() {
+  document.body.classList.toggle('admin');
+  this.textContent = document.body.classList.contains('admin') ? 'Admin' : 'Public View';
+  this.classList.toggle('admin-mode', document.body.classList.contains('admin'));
+});
+
+// ──────────────────────────────────────────────
+//  SEARCH
+// ──────────────────────────────────────────────
+
+document.getElementById('searchWorks').addEventListener('input', renderWorksGrid);
+document.getElementById('filterYear').addEventListener('change', renderWorksGrid);
+document.getElementById('filterMedium').addEventListener('change', renderWorksGrid);
+
+// ──────────────────────────────────────────────
+//  RENDER ALL
+// ──────────────────────────────────────────────
+
+function renderAll() {
+  renderSidebar();
+  renderWorksGrid();
+  renderCollections();
+  renderExhibitions();
+  renderTimeline();
+  updateStats();
+}
+
+// INIT
+renderAll();
+</script>
+</body>
+</html>
